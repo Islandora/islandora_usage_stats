@@ -294,19 +294,19 @@ class IslandoraUsageStats {
       $_SESSION['islandora_usage_stats'][ip_address()][$this->pid] = REQUEST_TIME;
     }
 
-    function getLastViewedTime()
-    {
-        $result = db_query("SELECT time from {islandora_usage_stats_object_views} WHERE pid = :pid", array(
-            ':pid_id' => $this->pid_id
-        ));
-
-        $record = $result->fetch();
-
-        if (! $record) {
-            return NULL;
-        } else {
-            return $record->time;
-        }
+  /**
+   * Returns the object's last viewed time.
+   *
+   * @return string|null
+   *   The last viewed time, or NULL if none existed.
+   */
+  function getLastViewedTime() {
+    $result = db_select('islandora_usage_stats_object_views', 'i')
+      ->fields('i', 'time')
+      ->condition('pid_id', $this->pid_id, '=')
+      ->execute()
+      ->fetchField();
+    return $result ? $result : NULL;
     }
 
     /**
