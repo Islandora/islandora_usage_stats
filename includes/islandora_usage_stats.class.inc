@@ -306,9 +306,7 @@ class IslandoraUsageStats {
       ->condition('pid_id', $this->pid_id, '=')
       ->execute()
       ->fetchField();
-
-    $return = $result ? $result : NULL;
-    return $return;
+    return $result ? $result : NULL;
     }
 
     /**
