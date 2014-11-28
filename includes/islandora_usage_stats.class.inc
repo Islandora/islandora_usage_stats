@@ -130,31 +130,56 @@ class IslandoraUsageStats {
    *   Results of the query.
    */
   public function addTopDownload($dsid) {
+    // Initialize our result to nothing, as it could
+    // be.
     $result = '';
-    $logging = variable_get('islandora_usage_stats_use_access_log', 1);
 
     // Check if user's ip is excluded.
     if (!$this->IpExcluded()) {
-      $last_viewed_time = $this->getLastViewTimeForVisitor();
+
+      // Last viewed time can be null if the user has
+      // never viewed this item before, or a time stamp
+      // if they have.
+      $last_downloaded_time = $this->getLastDownloadTimeForIp($dsid);
+
+      // Initilize to false. Only track the download if
+      // user session reports the user has not viewed this
+      // item before, or the cooldown time has passed.
+      $download = FALSE;
+
       // User has never viewed item before.
-      if (!$last_viewed_time) {
-        $this->dBIncreaseViewCounter();
-        if ($logging) {
-          $this->logObjectDownload($dsid);
-        }
+      if (!$last_downloaded_time) {
+
+        // Track download, user session reports
+        // user has not tried yet, so track it.
+        $download = TRUE;
       }
       else {
-        // Check if user has requested this item in the past X seconds.
+
+        // Check if user has requested this item in the past X seconds,
+        // corrisponding to the admin cooldown requirements.
         $cooldown_time = variable_get('islandora_usage_stats_cooldown_seconds', 300);
-        if (($last_viewed_time + $cooldown_time) < REQUEST_TIME) {
-          $result = $this->increaseTopObjectDSDownloadCounter($dsid);
-          if ($logging) {
-            $this->updateLastViewTimeForVisitor();
-          }
+        if (($last_downloaded_time + $cooldown_time) < REQUEST_TIME) {
+
+          // Enough time has passed, allow the download to be tracked.
+          $download = TRUE;
         }
       }
-    }
 
+      // If enough time has passed since last view, or the
+      // user has not visited this object before.
+      if ($download) {
+
+        // Bump the object ds download count.
+        $result = $this->increaseTopObjectDSDownloadCounter($dsid);
+      }
+
+      // Log this action if permitted to do so.
+      $logging = variable_get('islandora_usage_stats_use_access_log', 1);
+      if ($logging) {
+        $this->logObjectDownload($dsid);
+      }
+    }
     return $result;
   }
 
