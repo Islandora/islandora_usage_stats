@@ -140,7 +140,7 @@ class IslandoraUsageStats {
       // Last viewed time can be null if the user has
       // never viewed this item before, or a time stamp
       // if they have.
-      $last_downloaded_time = $this->getLastDownloadTimeForIp($dsid);
+      $last_downloaded_time = $this->getLastTopDownloadTimeForIp($dsid);
 
       // Initilize to false. Only track the download if
       // user session reports the user has not viewed this
@@ -177,7 +177,7 @@ class IslandoraUsageStats {
       // Log this action if permitted to do so.
       $logging = variable_get('islandora_usage_stats_use_access_log', 1);
       if ($logging) {
-        $this->logObjectDownload($dsid);
+        $this->logObjectTopDownload($dsid);
       }
     }
     return $result;
@@ -391,6 +391,26 @@ class IslandoraUsageStats {
   }
 
   /**
+   * Log the download of a Fedora object datastream.
+   *
+   * @return unknown
+   */
+  function logObjectTopDownload($dsid) {
+    global $user;
+    $ip = ip_address();
+
+    $result = db_insert('islandora_usage_stats_object_ds_download_log')->fields(array(
+        'pid_id' => $this->pid_id,
+        'time' => REQUEST_TIME,
+        'ip' => $ip,
+        'dsid' => $dsid,
+        'user' => ($user == NULL) ? $user->name : 'Anonymous'
+    ))->execute();
+
+    return $result;
+  }
+
+  /**
    * Queries the database access logs to get the last time an ip accessed this item
    *
    * @return NULL string since the unix epoch
@@ -404,6 +424,25 @@ class IslandoraUsageStats {
     $lastViewTime = $result->fetchField(0);
     return $lastViewTime;
   }
+
+
+  /**
+   * Queries the datastream access log to get the last time an ip downloaded the given datastream ID
+   *
+   * @param string $dsid
+   * @return string time in seconds since epoch
+   */
+  function getLastTopDownloadTimeForIp($dsid) {
+    $ip = ip_address();
+    $result = db_query("SELECT max(time) as time from {islandora_usage_stats_object_ds_download_log} WHERE pid_id = :pid_id AND dsid = :dsid AND ip = :ip", array(
+      ':pid_id' => $this->pid_id,
+      ':dsid' => $dsid,
+      ':ip' => $ip
+    ));
+    $record = $result->fetch();
+    return $record->time;
+  }
+
 
   /**
    * Queries the datastream access log to get the last time an ip downloaded the given datastream ID
