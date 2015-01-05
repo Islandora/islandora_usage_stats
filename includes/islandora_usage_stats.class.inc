@@ -130,31 +130,56 @@ class IslandoraUsageStats {
    *   Results of the query.
    */
   public function addTopDownload($dsid) {
+    // Initialize our result to nothing, as it could
+    // be.
     $result = '';
-    $logging = variable_get('islandora_usage_stats_use_access_log', 1);
 
     // Check if user's ip is excluded.
     if (!$this->IpExcluded()) {
-      $last_viewed_time = $this->getLastViewTimeForVisitor();
+
+      // Last viewed time can be null if the user has
+      // never viewed this item before, or a time stamp
+      // if they have.
+      $last_downloaded_time = $this->getLastTopDownloadTimeForIp($dsid);
+
+      // Initilize to false. Only track the download if
+      // user session reports the user has not viewed this
+      // item before, or the cooldown time has passed.
+      $download = FALSE;
+
       // User has never viewed item before.
-      if (!$last_viewed_time) {
-        $this->dBIncreaseViewCounter();
-        if ($logging) {
-          $this->logObjectDownload($dsid);
-        }
+      if (!$last_downloaded_time) {
+
+        // Track download, user session reports
+        // user has not tried yet, so track it.
+        $download = TRUE;
       }
       else {
-        // Check if user has requested this item in the past X seconds.
+
+        // Check if user has requested this item in the past X seconds,
+        // corrisponding to the admin cooldown requirements.
         $cooldown_time = variable_get('islandora_usage_stats_cooldown_seconds', 300);
-        if (($last_viewed_time + $cooldown_time) < REQUEST_TIME) {
-          $result = $this->increaseTopObjectDSDownloadCounter($dsid);
-          if ($logging) {
-            $this->updateLastViewTimeForVisitor();
-          }
+        if (($last_downloaded_time + $cooldown_time) < REQUEST_TIME) {
+
+          // Enough time has passed, allow the download to be tracked.
+          $download = TRUE;
         }
       }
-    }
 
+      // If enough time has passed since last view, or the
+      // user has not visited this object before.
+      if ($download) {
+
+        // Bump the object ds download count.
+        $result = $this->increaseTopObjectDSDownloadCounter($dsid);
+      }
+
+      // Log this action if permitted to do so.
+      $logging = variable_get('islandora_usage_stats_use_access_log', 1);
+      if ($logging) {
+        $this->logObjectTopDownload($dsid);
+      }
+    }
     return $result;
   }
 
@@ -366,6 +391,26 @@ class IslandoraUsageStats {
   }
 
   /**
+   * Log the download of a Fedora object datastream.
+   *
+   * @return unknown
+   */
+  function logObjectTopDownload($dsid) {
+    global $user;
+    $ip = ip_address();
+
+    $result = db_insert('islandora_usage_stats_object_ds_download_log')->fields(array(
+        'pid_id' => $this->pid_id,
+        'time' => REQUEST_TIME,
+        'ip' => $ip,
+        'dsid' => $dsid,
+        'user' => ($user == NULL) ? $user->name : 'Anonymous'
+    ))->execute();
+
+    return $result;
+  }
+
+  /**
    * Queries the database access logs to get the last time an ip accessed this item
    *
    * @return NULL string since the unix epoch
@@ -379,6 +424,25 @@ class IslandoraUsageStats {
     $lastViewTime = $result->fetchField(0);
     return $lastViewTime;
   }
+
+
+  /**
+   * Queries the datastream access log to get the last time an ip downloaded the given datastream ID
+   *
+   * @param string $dsid
+   * @return string time in seconds since epoch
+   */
+  function getLastTopDownloadTimeForIp($dsid) {
+    $ip = ip_address();
+    $result = db_query("SELECT max(time) as time from {islandora_usage_stats_object_ds_download_log} WHERE pid_id = :pid_id AND dsid = :dsid AND ip = :ip", array(
+      ':pid_id' => $this->pid_id,
+      ':dsid' => $dsid,
+      ':ip' => $ip
+    ));
+    $record = $result->fetch();
+    return $record->time;
+  }
+
 
   /**
    * Queries the datastream access log to get the last time an ip downloaded the given datastream ID
