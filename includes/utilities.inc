@@ -22,7 +22,7 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
         $object_access_id = islandora_usage_stats_object_view_to_db($pid_id);
       }
       catch (Exception $e) {
-        watchdog('islandora_usage_stats', t('Error from islandora_usage_stats_pid_to_db(): PID recieved could not be loaded.'));
+        watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $object->id), WATCHDOG_ERROR);
       }
 
       // Log content models.
@@ -34,7 +34,7 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
             islandora_usage_stats_content_model_view_to_db($object_access_id, $model_id);
           }
           catch (Exception $e) {
-            watchdog('islandora_usage_stats', t('Error from islandora_usage_stats_pid_to_db(): PID recieved could not be loaded.'));
+            watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $model), WATCHDOG_ERROR);
           }
         }
       }
@@ -47,7 +47,7 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
           islandora_usage_stats_collection_view_to_db($object_access_id, $collection_id);
         }
         catch (Exception $e) {
-          watchdog('islandora_usage_stats', t('Error from islandora_usage_stats_pid_to_db(): PID recieved could not be loaded.'));
+          watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $collection), WATCHDOG_ERROR);
         }
       }
       islandora_usage_stats_session_object_last_viewed_time($object->id, REQUEST_TIME);
