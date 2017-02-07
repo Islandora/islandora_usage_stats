@@ -35,9 +35,14 @@ function islandora_usage_stats_pid_id($pid) {
  */
 function islandora_usage_stats_pid_to_db($pid) {
   $object = islandora_object_load($pid);
-  return db_insert('islandora_usage_stats_objects')
-    ->fields(array('pid' => $pid, 'label' => $object->label))
-    ->execute();
+  if ($object) {
+    return db_insert('islandora_usage_stats_objects')
+      ->fields(array('pid' => $pid, 'label' => $object->label))
+      ->execute();
+  }
+  else {
+    throw new Exception("islandora_usage_stats_pid_to_db(): Could not load '{$pid}' for logging.");
+  }
 }
 
 /**
