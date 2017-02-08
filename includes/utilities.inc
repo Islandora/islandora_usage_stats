@@ -29,10 +29,10 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
           }
           catch (Exception $e) {
             watchdog_exception(
-              'islandora_usage_stats', 
-              $e, 
-              'Attempted load of %cmodel as cmodel of %obj', 
-              array('%cmodel' => $model, '%obj' => $object->id), 
+              'islandora_usage_stats',
+              $e,
+              'Attempted load of %cmodel as cmodel of %obj',
+              array('%cmodel' => $model, '%obj' => $object->id),
               WATCHDOG_ERROR);
           }
         }
@@ -47,10 +47,10 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
         }
         catch (Exception $e) {
           watchdog_exception(
-            'islandora_usage_stats', 
-            $e, 
-            'Attempted load of %cmodel as parent collection of %obj', 
-            array('%cmodel' => $collection, '%obj' => $object->id), 
+            'islandora_usage_stats',
+            $e,
+            'Attempted load of %cmodel as parent collection of %obj',
+            array('%cmodel' => $collection, '%obj' => $object->id),
             WATCHDOG_ERROR);
         }
       }
