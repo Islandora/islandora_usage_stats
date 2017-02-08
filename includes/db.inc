@@ -33,7 +33,7 @@ function islandora_usage_stats_pid_id($pid) {
 /**
  * Gets the database id related to a PID.
  *
- * @throws Exception if the $pid cannot be loaded 
+ * @throws Exception if the $pid cannot be loaded.
  */
 function islandora_usage_stats_pid_to_db($pid) {
   $object = islandora_object_load($pid);
