@@ -41,7 +41,7 @@ function islandora_usage_stats_pid_to_db($pid) {
       ->execute();
   }
   else {
-    throw new Exception("islandora_usage_stats_pid_to_db(): Could not load '{$pid}' for logging.");
+    throw new Exception("Could not load '{$pid}' as Islandora object");
   }
 }
 

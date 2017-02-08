@@ -17,16 +17,10 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
     if (($last_viewed + variable_get('islandora_usage_stats_cooldown_seconds', 300)) < REQUEST_TIME) {
       module_load_include('inc', 'islandora_basic_collection', 'includes/utilities');
       module_load_include('inc', 'islandora_usage_stats', 'includes/db');
-      try {
-        $pid_id = islandora_usage_stats_get_pid_id($object->id);
-        $object_access_id = islandora_usage_stats_object_view_to_db($pid_id);
-      }
-      catch (Exception $e) {
-        watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $object->id), WATCHDOG_ERROR);
-      }
+      $pid_id = islandora_usage_stats_get_pid_id($object->id);
+      $object_access_id = islandora_usage_stats_object_view_to_db($pid_id);
 
       // Log content models.
-      $object = islandora_object_load($object->id);
       foreach ($object->models as $model) {
         if ($model != 'fedora-system:FedoraObject-3.0') {
           try {
@@ -34,7 +28,12 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
             islandora_usage_stats_content_model_view_to_db($object_access_id, $model_id);
           }
           catch (Exception $e) {
-            watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $model), WATCHDOG_ERROR);
+            watchdog_exception(
+              'islandora_usage_stats', 
+              $e, 
+              'Attempted load of %cmodel as cmodel of %obj', 
+              array('%cmodel' => $model, '%obj' => $object->id), 
+              WATCHDOG_ERROR);
           }
         }
       }
@@ -47,7 +46,12 @@ function islandora_usage_stats_log_object_view(AbstractObject $object) {
           islandora_usage_stats_collection_view_to_db($object_access_id, $collection_id);
         }
         catch (Exception $e) {
-          watchdog('islandora_usage_stats', 'Error: islandora_usage_stats_pid_to_db() could not load %pid', array('%pid' => $collection), WATCHDOG_ERROR);
+          watchdog_exception(
+            'islandora_usage_stats', 
+            $e, 
+            'Attempted load of %cmodel as parent collection of %obj', 
+            array('%cmodel' => $collection, '%obj' => $object->id), 
+            WATCHDOG_ERROR);
         }
       }
       islandora_usage_stats_session_object_last_viewed_time($object->id, REQUEST_TIME);
