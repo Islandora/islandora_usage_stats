@@ -1,3 +1,4 @@
+sudo: required
 language: php
 php:
   - 5.3.3
@@ -24,6 +25,9 @@ before_install:
   - drush en --yes --user=1 views datepicker_views
   - drush en --yes --user=1 islandora_basic_collection
   - drush en --yes islandora_usage_stats
+before_script:
+  # Mysql might time out for long tests, increase the wait timeout.
+  - mysql -e 'SET @@GLOBAL.wait_timeout=1200'
 script:
   - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_usage_stats
   - drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_usage_stats
