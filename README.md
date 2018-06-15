@@ -2,20 +2,20 @@
 
 ## Introduction
 
-A module for Drupal 7 to track views and downloads of Islandora items. Features include:
+A module that tracks views and downloads of Islandora items, using the Drupal database.
 
-* Toggle to ignore common bots
-* View count uses session variables and defaults to a 5 minute cooldown for repeated requests
-* Access log for all views and downloads
+Features include:
+
+* Toggle to ignore common bots, with a configurable regex bot filter
+* View count uses session variables, and defaults to a 5 minute cooldown for repeated requests
 * IP Exclusion list to prevent artificially inflating counts while testing/developing/administrating
-* Several customizable blocks to display metrics
-* Report generating interface
-* Object log views integration
+* Logs all views and datastream downloads
+* Views integration
 
 Note:
 
-* Does **not** respect XACML or namespace restrictions.
-* This is a server-side tracking solution, as such a caching layer could impact it.  If this is impacting you a [solution](https://github.com/discoverygarden/islandora_ga_reports) using JavaScript may work better.
+* This module, and the views/blocks it generates, does **not** respect XACML or namespace restrictions.
+* As this is a server-side tracking solution, a caching layer could prevent accesses from being recorded.  If this is impacting you a [solution](https://github.com/discoverygarden/islandora_ga_reports) using JavaScript may work better.
 
 ## Requirements
 
@@ -29,15 +29,31 @@ This module requires the following modules/libraries:
 * [Datepicker](https://www.drupal.org/project/datepicker)
 * [Views Data Export](https://www.drupal.org/project/views_data_export)
 
+This module can be extended with:
+
+* Views UI (bundled with Views)
+* [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) (in Islandora Labs)
+
+
 ## Installation
 
-Install as usual, see [this](https://drupal.org/documentation/install/modules-themes/modules-7) for further information.
+Install as usual, see [this](https://www.drupal.org/docs/7/extend/installing-modules) for further information.
+
+## Usage
+
+Out of the box, Islandora usage stats provides:
+* views of usage stats on Collection overview pages
+* A report-generating interface at __Reports > Islandora Usage Stats Reports__
+* Several customizable blocks to display the most popular objects
+* A customizable block to show collection usage stats
+
+The data collected by Islandora Usage Stats is made available to Views, so custom reports can also be created.
 
 ## Configuration
 
 Configuration options are available at Islandora » Islandora Utility Modules » Islandora Usage Stats Settings (admin/islandora/tools/islandora_usage_stats).
 
-![Configuration](https://raw.githubusercontent.com/wiki/islandora/islandora_usage_stats/images/usage_stats_configuration.jpg)
+![Configuration](https://user-images.githubusercontent.com/1943338/41436826-3bab2b9a-6ff9-11e8-96f9-7819388c40ee.png)
 
 ## Documentation
 
