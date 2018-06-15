@@ -2,15 +2,15 @@
 
 ## Introduction
 
-A module to track views and downloads of Islandora items. Features include:
+A module that tracks views and downloads of Islandora items, using the Drupal database.
+
+Features include:
 
 * Toggle to ignore common bots, with a configurable regex bot filter
 * View count uses session variables, and defaults to a 5 minute cooldown for repeated requests
 * IP Exclusion list to prevent artificially inflating counts while testing/developing/administrating
-* Several customizable blocks to display metrics
-* Report-generating interface at __Reports > Islandora Usage Stats Reports__
-* Object log views integration
-* Access log for all views and downloads
+* Logs all views and datastream downloads
+* Views integration
 
 Note:
 
@@ -29,22 +29,25 @@ This module requires the following modules/libraries:
 * [Datepicker](https://www.drupal.org/project/datepicker)
 * [Views Data Export](https://www.drupal.org/project/views_data_export)
 
+This module can be extended with:
+
+* Views UI (bundled with Views)
+* [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) (in Islandora Labs)
+
+
 ## Installation
 
 Install as usual, see [this](https://www.drupal.org/docs/7/extend/installing-modules) for further information.
 
 ## Usage
 
-Usage stats for the children of a collection appear on the overview pages ("Manage" tab) of collections, to users who have the permission to "__View Islandora Usage Collection Overview__". A block showing the same information, __Usage Stats for Collections__, is also available under __Structure > Blocks__, which can be placed and permissioned like a normal block.
+Out of the box, Islandora usage stats provides:
+* views of usage stats on Collection overview pages
+* A report-generating interface at __Reports > Islandora Usage Stats Reports__
+* Several customizable blocks to display the most popular objects
+* A customizable block to show collection usage stats
 
-A view of all gathered stats, with the ability to generate CSV reports, is available at __Reports > Islandora Usage Stats__ (`admin/reports/islandora_usage_stats_report`) for users who have the permission "__View Islandora Usage Reports__".
-
-This module also provides several Drupal blocks. They can be configured (e.g. number of rows to display, which PIDs to omit, ...) at __Structure > Blocks__:
-* __Most Searched Terms__
-* __Most Viewed Islandora Items__
-* __Recently Accessed Islandora Items__
-* __Recently Downloaded__
-
+The data collected by Islandora Usage Stats is made available to Views, so custom reports can also be created.
 
 ## Configuration
 
