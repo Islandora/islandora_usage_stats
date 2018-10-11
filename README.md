@@ -72,7 +72,7 @@ Work based on code from https://github.com/roblib/islandora_scholar_upei and the
 
 Current maintainers:
 
-* [Bryan Brown](https://github.com/bryjbrown)
+* [William Panting](https://github.com/willtp87)
 
 Sponsors:
 
