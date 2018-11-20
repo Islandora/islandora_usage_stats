@@ -16,7 +16,7 @@ Islandora Usage Stats provides the back-end framework and gathers usage data, wh
 Caution:
 
 * This module, and the views/blocks it generates, does **not** respect XACML or namespace restrictions.
-* As this is a server-side tracking solution, a caching layer can prevent usage from being accurately recorded.  If this is impacting you a [solution using JavaScript](https://github.com/discoverygarden/islandora_ga_reports) may work better.
+* As this is a server-side tracking solution, a caching layer can prevent usage from being accurately recorded.  If this is impacting you, a solution using JavaScript may work better for you. Community solutions include [discoverygarden's Google Analytics module](https://github.com/discoverygarden/islandora_ga_reports) and [Diego Pino's Matomo module](https://github.com/DiegoPino/islandora_piwik/). 
 
 ## Requirements
 
@@ -33,6 +33,7 @@ This module can be extended with:
 
 * Views UI (bundled with Views)
 * [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) (in Islandora Labs)
+* [Islandora Usage Stats Charts](https://github.com/mjordan/islandora_usage_stats_charts) (by Mark Jordan)
 
 
 ## Installation
@@ -41,7 +42,7 @@ Install as usual, see [this](https://www.drupal.org/docs/7/extend/installing-mod
 
 ## Usage
 
-The data collected by Islandora Usage Stats is made available to Views, so custom reports can be created. It also works with community modules such as [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) to provide more functionality. 
+The data collected by Islandora Usage Stats is made available to Views, so custom reports can be created. It also works with community modules such as [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) or [Islandora Usage Stats Charts](https://github.com/mjordan/islandora_usage_stats_charts) to provide more functionality. These modules are not part of Islandora's official releases.
 
 Out of the box, Islandora usage stats can also provide:
 * Views of usage stats on Collection overview pages
