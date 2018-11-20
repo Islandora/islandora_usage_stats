@@ -29,7 +29,7 @@ This module requires the following modules/libraries:
 * [Date](https://www.drupal.org/project/date)
 * [Datepicker](https://www.drupal.org/project/datepicker)
 
-This module can be extended with:
+This module can be extended with the following Islandora community/Drupal contrib modules:
 
 * Views UI (bundled with Views)
 * [Islandora Usage Stats Callbacks](https://github.com/Islandora-Labs/islandora_usage_stats_callbacks) (in Islandora Labs)
