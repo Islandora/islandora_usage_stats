@@ -531,7 +531,7 @@ function islandora_usage_stats_views_default_views() {
     ),
     'search_total' => array(
       'sortable' => 1,
-      'default_sort_order' => 'asc',
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
