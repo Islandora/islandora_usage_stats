@@ -493,5 +493,110 @@ function islandora_usage_stats_views_default_views() {
 
   $views['usage_collection'] = $view;
 
+  $view = new view();
+  $view->name = 'usage_searches';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'islandora_usage_stats_top_searches';
+  $view->human_name = 'Islandora Usage Stats Top Searches';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Islandora Usage Stats Search Counts';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'view islandora usage stats reports';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'term' => 'term',
+    'search_total' => 'search_total',
+  );
+  $handler->display->display_options['style_options']['class'] = '';
+  $handler->display->display_options['style_options']['default'] = 'search_total';
+  $handler->display->display_options['style_options']['info'] = array(
+    'term' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'search_total' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Footer: Global: Result summary */
+  $handler->display->display_options['footer']['result']['id'] = 'result';
+  $handler->display->display_options['footer']['result']['table'] = 'views';
+  $handler->display->display_options['footer']['result']['field'] = 'result';
+  $handler->display->display_options['footer']['result']['content'] = 'Total: @total';
+  /* Field: Islandora Usage Stats: Search term */
+  $handler->display->display_options['fields']['term']['id'] = 'term';
+  $handler->display->display_options['fields']['term']['table'] = 'islandora_usage_stats_top_searches';
+  $handler->display->display_options['fields']['term']['field'] = 'term';
+  /* Field: Islandora Usage Stats: Total */
+  $handler->display->display_options['fields']['search_total']['id'] = 'search_total';
+  $handler->display->display_options['fields']['search_total']['table'] = 'islandora_usage_stats_top_searches';
+  $handler->display->display_options['fields']['search_total']['field'] = 'search_total';
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'admin/reports/islandora-usage-stats-top-searches';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Islandora Usage Stats Top Searches';
+  $handler->display->display_options['menu']['description'] = 'Browse the top search results for the repository.';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Islandora Usage Stats Top Searches */
+  $handler = $view->new_display('views_data_export', 'Islandora Usage Stats Top Searches', 'views_data_export_1');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['path'] = 'admin/reports/islandora-usage-stats-top-searches/export';
+  $handler->display->display_options['displays'] = array(
+    'page' => 'page',
+    'default' => 0,
+  );
+  $translatables['usage_searches'] = array(
+    t('Master'),
+    t('Islandora Usage Stats Search Counts'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Total: @total'),
+    t('Search term'),
+    t('Total'),
+    t('.'),
+    t(','),
+    t('Page'),
+    t('Islandora Usage Stats Top Searches'),
+  );
+
+  $views['usage_searches'] = $view;
+
   return $views;
 }
