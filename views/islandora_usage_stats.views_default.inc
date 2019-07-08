@@ -546,6 +546,8 @@ function islandora_usage_stats_views_default_views() {
   $handler->display->display_options['fields']['term']['id'] = 'term';
   $handler->display->display_options['fields']['term']['table'] = 'islandora_usage_stats_top_searches';
   $handler->display->display_options['fields']['term']['field'] = 'term';
+  $handler->display->display_options['fields']['term']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['term']['alter']['path'] = 'islandora/search/[term]';
   /* Field: Islandora Usage Stats: Total */
   $handler->display->display_options['fields']['search_total']['id'] = 'search_total';
   $handler->display->display_options['fields']['search_total']['table'] = 'islandora_usage_stats_top_searches';

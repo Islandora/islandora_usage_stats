@@ -11,6 +11,7 @@
  *   The search term to track.
  */
 function islandora_usage_stats_track_search_results($term = NULL) {
+  dsm($term);
   module_load_include('module', 'islandora_solr', "islandora_solr");
   if (!empty($term)) {
     module_load_include('inc', 'islandora_usage_stats', 'includes/utilities');
