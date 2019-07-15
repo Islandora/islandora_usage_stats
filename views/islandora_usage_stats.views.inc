@@ -463,5 +463,46 @@ function islandora_usage_stats_views_data() {
       ),
     ),
   );
+  $data['islandora_usage_stats_top_searches'] = array(
+    'table' => array(
+      'group' => t('Islandora Usage Stats'),
+      'base' => array(
+        'field' => 'id',
+        'title' => t('Islandora Usage Stats Top Searches'),
+        'help' => t('Tracks the top searches within the Islandora repository.'),
+      ),
+    ),
+    'term' => array(
+      'title' => t('Search term'),
+      'help' => t('Term that was searched for in the repository.'),
+      'field' => array(
+        'handler' => 'views_handler_field',
+        'click sortable' => TRUE,
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+      'filter' => array(
+        'handler' => 'views_handler_filter_string',
+      ),
+      'argument' => array(
+        'handler' => 'views_handler_argument_string',
+      ),
+    ),
+    'search_total' => array(
+      'title' => t('Total'),
+      'help' => t('Total number of searches for a term.'),
+      'field' => array(
+        'handler' => 'views_handler_field_numeric',
+        'click sortable' => TRUE,
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+      'filter' => array(
+        'handler' => 'views_handler_filter_numeric',
+      ),
+    ),
+  );
   return $data;
 }
