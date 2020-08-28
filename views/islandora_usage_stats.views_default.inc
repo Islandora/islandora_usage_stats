@@ -20,8 +20,8 @@ function islandora_usage_stats_views_default_views() {
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
+  /* Display: main */
+  $handler = $view->new_display('default', 'main', 'default');
   $handler->display->display_options['title'] = 'Islandora Usage Stats Report';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
@@ -306,7 +306,7 @@ function islandora_usage_stats_views_default_views() {
   $handler->display->display_options['attachment_position'] = 'after';
   $handler->display->display_options['inherit_exposed_filters'] = TRUE;
   $translatables['islandora_usage_stats_report'] = array(
-    t('Master'),
+    t('main'),
     t('Islandora Usage Stats Report'),
     t('more'),
     t('Apply'),
@@ -350,8 +350,8 @@ function islandora_usage_stats_views_default_views() {
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
+  /* Display: main */
+  $handler = $view->new_display('default', 'main', 'default');
   $handler->display->display_options['title'] = 'Collection Usage Stats';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
@@ -460,7 +460,7 @@ function islandora_usage_stats_views_default_views() {
   $handler = $view->new_display('block', 'Block', 'usage_stats');
   $handler->display->display_options['block_description'] = 'Usage Stats for Collections';
   $translatables['usage_collection'] = array(
-    t('Master'),
+    t('main'),
     t('Usage Stats'),
     t('more'),
     t('Apply'),
@@ -503,8 +503,8 @@ function islandora_usage_stats_views_default_views() {
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
+  /* Display: main */
+  $handler = $view->new_display('default', 'main', 'default');
   $handler->display->display_options['title'] = 'Islandora Usage Stats Search Counts';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -574,7 +574,7 @@ function islandora_usage_stats_views_default_views() {
     'default' => 0,
   );
   $translatables['usage_searches'] = array(
-    t('Master'),
+    t('main'),
     t('Islandora Usage Stats Search Counts'),
     t('more'),
     t('Apply'),
